@@ -1,5 +1,5 @@
 <#
-来搜 Accio Work 智能体套装的 Windows 启动器。
+大客赢 Accio Work 智能体套装的 Windows 启动器。
 
 作用：
 1. 找到正在运行的 Accio.exe；

@@ -12,7 +12,7 @@ aa52e160f12dce12637546bc3f82dd810644799da76984f36d521824e9aa10b8
 
 1. 读取 ~/.accio/state/current-space.json 确认当前 Accio Work 空间，不要根据目录修改时间猜测。
 2. 校验 profile.jsonc、agent-core/、permissions/、agent-core/skills/skills.jsonc 和 agent-core/scripts/sync_accio_context.py。
-3. 智能体名称必须是“大客赢 | 企业 AI 底座搭建智能体”，私有 Skill 必须且只能包含 enterprise-ai-foundation-builder。
+3. 智能体名称必须是“大客赢 | 企业 AI 底座搭建智能体”；核心私有 Skill 必须包含 enterprise-ai-foundation-builder，其他辅助 Skill 必须与包内 agent-core/skills/skills.jsonc 声明一致，不得漏装或额外添加。
 4. 确认 profile.jsonc.id 在当前空间唯一；如有冲突，生成新的 MID-*，并保持目标目录名与 profile.jsonc.id 完全一致。
 5. 确保 profile.jsonc.enabled 为 true。确认目标 agents/<agentId>/ 不存在，禁止覆盖；先复制到同级 .installing-<agentId>。
 6. 在同一空间 agents/ 下动态寻找 enabled=true 且 agentType="accio" 的主智能体，不写死 DID/MID，不跨账号或空间读取。

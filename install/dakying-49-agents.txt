@@ -3,10 +3,10 @@ Install the Dakying suite of 49 course agents into the current Accio Work space.
 Use Chinese for all user-facing communication, including progress updates, clarification questions, error messages, and the final installation report.
 
 Immutable ZIP URL:
-https://raw.githubusercontent.com/Garden-g/DKY_Agent/36f0c272d6bb68d211879f5b07a0ed597d0751eb/release/dakying-49-accio-agents-v2.7.3.zip
+https://raw.githubusercontent.com/Garden-g/DKY_Agent/21c4d73252d6e814c247bd19a70b8d5293993c5c/release/dakying-49-accio-agents-v2.7.3.zip
 
 Expected SHA-256 of the ZIP file:
-dc184e7f2dd0befcfdb41c1fd523934f58e2857b95f1050e72930004971d6e8a
+a7ef4e324d0eca867ea8e363c1924f6708880724c0058117477fae3140b748cf
 
 Download the immutable ZIP URL directly as binary data with curl to a new temporary file. On Windows, use curl.exe. Use fail-on-HTTP-error, follow redirects, and bounded retries. Do not download or hash a separate checksum file, a GitHub HTML page, or an error response. Calculate SHA-256 on the downloaded ZIP file itself and compare the lowercase hexadecimal value exactly with the expected value above.
 

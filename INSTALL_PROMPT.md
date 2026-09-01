@@ -3,11 +3,11 @@
 Windows：
 
 ```powershell
-curl.exe --http1.1 --retry 5 --retry-all-errors --retry-delay 1 --retry-max-time 120 --connect-timeout 15 -fsSL https://raw.githubusercontent.com/Garden-g/DKY_Agent/e02eaf82378283ce69f1d2c5c931a1b65fea5fae/install/dakying-49-agents.txt
+curl.exe --http1.1 --retry 5 --retry-all-errors --retry-delay 1 --retry-max-time 120 --connect-timeout 15 -fsSL https://raw.githubusercontent.com/Garden-g/DKY_Agent/a73ded6a4c4fb7aabebc638a6f45beeaa18317e0/install/dakying-49-agents.txt
 ```
 
 macOS：
 
 ```bash
-curl --http1.1 --retry 5 --retry-all-errors --retry-delay 1 --retry-max-time 120 --connect-timeout 15 -fsSL https://raw.githubusercontent.com/Garden-g/DKY_Agent/e02eaf82378283ce69f1d2c5c931a1b65fea5fae/install/dakying-49-agents.txt
+curl --http1.1 --retry 5 --retry-all-errors --retry-delay 1 --retry-max-time 120 --connect-timeout 15 -fsSL https://raw.githubusercontent.com/Garden-g/DKY_Agent/a73ded6a4c4fb7aabebc638a6f45beeaa18317e0/install/dakying-49-agents.txt
 ```

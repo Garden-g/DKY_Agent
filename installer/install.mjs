@@ -22,17 +22,16 @@ const BUNDLE_ROOT = path.dirname(INSTALLER_DIRECTORY);
 const MANIFEST_PATH = path.join(BUNDLE_ROOT, "bundle-manifest.json");
 const ACCIO_ROOT = path.join(os.homedir(), ".accio");
 const ACCOUNTS_ROOT = path.join(ACCIO_ROOT, "accounts");
-// 保留历史标记值，确保旧版套装升级后替换原块，而不是重复追加用户画像和记忆。
+// 当前品牌标记由 upsertManagedBlock 兼容迁移，避免升级后重复追加用户画像和记忆。
 const USER_CONTEXT_MARKERS = {
-  begin: "<!-- TOKENMIND:BEGIN_LOCAL_USER_CONTEXT -->",
-  end: "<!-- TOKENMIND:END_LOCAL_USER_CONTEXT -->",
+  begin: "<!-- DAKYING:BEGIN_LOCAL_USER_CONTEXT -->",
+  end: "<!-- DAKYING:END_LOCAL_USER_CONTEXT -->",
 };
 const MEMORY_CONTEXT_MARKERS = {
-  begin: "<!-- TOKENMIND:BEGIN_LOCAL_MEMORY_CONTEXT -->",
-  end: "<!-- TOKENMIND:END_LOCAL_MEMORY_CONTEXT -->",
+  begin: "<!-- DAKYING:BEGIN_LOCAL_MEMORY_CONTEXT -->",
+  end: "<!-- DAKYING:END_LOCAL_MEMORY_CONTEXT -->",
 };
-// 仅用于升级同来源旧版 Agent 的可见品牌文案；不要修改上面的历史标记值。
-const LEGACY_VISIBLE_BRANDS = ["赢单", "TokenMind", "来搜"];
+// 旧品牌从已安装配置读取，公开包只声明当前品牌。
 const BRAND_IDENTITY_FILES = [
   "agent-core/AGENTS.md",
   "agent-core/IDENTITY.md",
@@ -120,7 +119,12 @@ function escapeRegExp(value) {
  * @returns {string} 合并后的完整 Markdown。
  */
 function upsertManagedBlock(original, markers, managedContent) {
-  const normalizedOriginal = original.replace(/\r\n/g, "\n");
+  const contextKind = markers.begin.includes("LOCAL_USER_CONTEXT") ? "USER" : "MEMORY";
+  // 仅迁移本安装器的受控块边界，保留块内用户资料和其他系统保留区。
+  const normalizedOriginal = original.replace(/\r\n/g, "\n").replace(
+    new RegExp(`<!-- [A-Z]+:(BEGIN|END)_LOCAL_${contextKind}_CONTEXT -->`, "g"),
+    (_, boundary) => boundary === "BEGIN" ? markers.begin : markers.end,
+  );
   const normalizedContent = managedContent.replace(/\r\n/g, "\n").trimEnd();
   const block = `${markers.begin}\n${normalizedContent}\n${markers.end}`;
   const expression = new RegExp(
@@ -634,7 +638,7 @@ function applyBrandingToExistingAgent(agentDirectory, manifestAgent, expectedBra
       const content = fs.readFileSync(filePath, "utf8");
       files.push({ filePath, content });
       let brandedContent = content;
-      for (const legacyBrand of LEGACY_VISIBLE_BRANDS) {
+      for (const legacyBrand of [String(profile.brand || profile.name?.split(" | ")[0] || expectedBrand)]) {
         brandedContent = brandedContent.split(legacyBrand).join(expectedBrand);
       }
       if (brandedContent !== content) {
@@ -745,14 +749,12 @@ function resolvePersonalizationSource(targetRoot, accountKey) {
     candidates.push({
       agentDirectory,
       agentId: String(profile.id || entry.name),
-      preferred: entry.name.startsWith("DID-F456DA") ? 1 : 0,
       updatedAt: Date.parse(String(profile.updatedAt || "")) || 0,
     });
   }
 
   candidates.sort(
     (left, right) =>
-      right.preferred - left.preferred ||
       right.updatedAt - left.updatedAt ||
       left.agentId.localeCompare(right.agentId),
   );
@@ -1023,11 +1025,6 @@ function validatePreparedAgent(
     relativePath,
     content: fs.readFileSync(path.join(agentDirectory, relativePath), "utf8"),
   }));
-  for (const { relativePath, content } of brandIdentityContents) {
-    if (LEGACY_VISIBLE_BRANDS.some((legacyBrand) => content.includes(legacyBrand))) {
-      throw new Error(`${manifestAgent.displayName} 的品牌身份文档校验失败：${relativePath}`);
-    }
-  }
   if (!brandIdentityContents.some(({ content }) => content.includes(expectedBrand))) {
     throw new Error(`${manifestAgent.displayName} 的身份文档缺少目标品牌：${expectedBrand}`);
   }

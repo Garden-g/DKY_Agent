@@ -1,31 +1,27 @@
-Install the Dakying suite of 49 course agents into the current Accio Work space.
+请将大客赢 49 个 Accio Work 业务智能体安装到当前登录空间。所有进度、错误和最终报告均使用中文。
 
-Use Chinese for all user-facing communication, including progress updates, clarification questions, error messages, and the final installation report.
+不可变 ZIP 地址：
+https://raw.githubusercontent.com/Garden-g/DKY_Agent/32ad2a6965ae4861d170a27dfc3232ce6a11d4db/release/dakying-49-accio-agents-v2.7.4.zip
 
-Immutable ZIP URL:
-https://raw.githubusercontent.com/Garden-g/DKY_Agent/21c4d73252d6e814c247bd19a70b8d5293993c5c/release/dakying-49-accio-agents-v2.7.3.zip
+ZIP 本体的预期 SHA-256：
+0857f94f5d8ea78d7be11fdcd65b73d8a6c0987c27a54c36c91aa5b0e6227ac8
 
-Expected SHA-256 of the ZIP file:
-a7ef4e324d0eca867ea8e363c1924f6708880724c0058117477fae3140b748cf
+用 curl 下载上述地址的二进制 ZIP 到新的临时文件；Windows 使用 curl.exe。启用 HTTP 错误失败、重定向和有限次数重试。不要下载或校验 GitHub HTML 页面、错误响应或单独的摘要文件。网络或 HTTP 错误应报告为下载失败。
 
-Download the immutable ZIP URL directly as binary data with curl to a new temporary file. On Windows, use curl.exe. Use fail-on-HTTP-error, follow redirects, and bounded retries. Do not download or hash a separate checksum file, a GitHub HTML page, or an error response. Calculate SHA-256 on the downloaded ZIP file itself and compare the lowercase hexadecimal value exactly with the expected value above.
+计算实际下载 ZIP 本体的 SHA-256，与预期小写十六进制值精确比较。首次不一致时只删除本次临时 ZIP，换新临时路径再下载一次；第二次仍不一致就停止并报告实际值和预期值。
 
-If the transfer command reports an HTTP or network error, report a download failure rather than a checksum mismatch. If the ZIP hash does not match, discard only that temporary ZIP and perform one clean download to a new temporary file. If the second ZIP hash still does not match, stop and report both the expected and actual hashes; do not retry indefinitely.
+校验通过后，用支持 UTF-8 文件名的方式解压；读取包内 INSTALL_PROMPT.txt，并执行 installer/install-windows.ps1 或 installer/install-macos.sh。不要走“创建智能体”流程，不覆盖无关智能体。
 
-After checksum verification succeeds, extract the ZIP with UTF-8 filename support. Read INSTALL_PROMPT.txt inside the extracted package, then run installer/install-windows.ps1 on Windows or installer/install-macos.sh on macOS. Do not use the Create Agent workflow, and do not overwrite unrelated agents.
+全部名称必须以“大客赢 | ”开头，使用清单声明的同一份 150×84 透明背景大客赢 Logo，摘要为 c9a06ea9a51382a48416c9f52905c2e14899df04628a6a46ad63616b502be849。每个智能体声明的全部私有 Skill 必须安装并校验，不能放到全局 skills 目录。
 
-The names of all 49 agents must begin with "大客赢 | ", and every agent must use the same 150x84 transparent-background Dakying logo declared by the bundle, with SHA-256 c9a06ea9a51382a48416c9f52905c2e14899df04628a6a46ad63616b502be849. Do not replace it with the v2.3.0 white-background square logo. Merge the local user profile and memory from the current primary Accio agent into all 49 agents. If an older agent from the same source already exists, preserve its ID, account profile, USER.md, and MEMORY.md while replacing the old template and private Skills in place; do not create a duplicate. An agent may contain one or more private Skills declared by the bundle, and all declared Skills must be installed and validated.
+从当前空间的 Accio 主智能体同步用户画像和记忆；同来源旧版原位升级，保留原 ID、账号画像、USER.md 和 MEMORY.md，不重复创建。
 
-The 48th agent, "大客赢 | 企业 AI 底座搭建智能体", must retain its detailed AGENTS.md, IDENTITY.md, USER.md, SOUL.md, and MEMORY.md instructions and the declared private Skill. It supports courses 2-1 through 2-9 and includes 15 complete readable deliverables: 8 DOCX documents and 7 XLSX workbooks, including the enriched enterprise positioning and standard company introduction.
+市场和客户定位分析必须保留 TWS Excel 验收样本和八工作表报告契约；正式报告必须通过来源、图片、公式、结构和视觉检查。
 
-The 49th agent, "大客赢 | 企业知识库问答智能体", must retain its detailed core files and the private Skill "enterprise-knowledge-base-qa". For enterprise knowledge questions it must use knowledge-base-plugin retrieval rather than answer only from model memory. It must search with search_kb_file_contents, read authoritative files with get_kb_file_contents when needed, cite the actual file names used in every answer, retry search with broader candidate counts when evidence is weak, disclose uncertainty when evidence is missing, and warn about possible knowledge-base updates when retrieved evidence conflicts with MEMORY.md.
+英文标题和五条卖点必须保留关键词驱动流程、110—120 字符确定性校验、原始关键词覆盖检查和 180 条链接 Excel 输出契约。短于 110 或长于 120 字符的英文标题必须重写。
 
-For the 14 course items owned by 鸡公老师 (3-1 through 3-6, 4-1 through 4-6, 4-9, and 4-10), use only the teacher-source templates included in this bundle. Do not substitute Dakying GitHub published or unpublished Skills for those items.
+企业 AI 底座搭建覆盖资料盘点、企业定位、产品资料、问答案例、市场画像、行业与准入、竞品定位和知识库入库，内置 8 份 DOCX 与 7 份 XLSX；上传、绑定和权限配置需要用户明确授权及真实成功回执。检索问答由企业知识库问答智能体使用 knowledge-base-plugin 完成，必须列出实际引用文件，证据不足时扩大检索范围，知识库与 Memory 冲突时提醒用户确认。
 
-For the 16 customer-discovery and company-background-check agents covering courses 5-2 through 6-1, public lead discovery and verification must use only Search, Fetch, and Accio Browser Relay. Do not use Apify, external Actors, crawler services, or MCP collectors. The three pure search agents declare no plugin; the remaining Excel agents declare only spreadsheets, which is used solely to render and verify Excel files and never to acquire leads.
+找客户及公司背调的公开信息获取统一使用 Search → Fetch → Accio Browser Relay，不使用 Apify、外部 Actor、爬虫服务或 MCP 采集器。Excel 插件只用于生成和核验文件，不用于采集线索。
 
-For course 3-1, preserve the bundled TWS Excel acceptance sample and the eight-sheet report output contract inside its private Skill. A formal market and customer research report must generate the declared .xlsx deliverable and pass its source, image, formula, workbook-structure, and visual checks; a Markdown-only response is not a complete report.
-
-For course 3-4, preserve the bundled keyword-driven title workflow, 110-120 character validator, full-keyword coverage check, and 180-link Excel output contract. Every formal English title must pass the bundled deterministic validator; a title shorter than 110 characters or longer than 120 characters must be rewritten and must not be delivered as a valid result.
-
-Report success only when the installer outputs INSTALL_OK, installed plus skipped equals 49, branded equals 49, personalized equals 49, and no .installing-* directory remains. Do not restart Accio automatically. When installation is complete, ask me in Chinese to fully quit and reopen Accio Work manually.
+只有安装器返回 INSTALL_OK，并核对 installed + skipped = 49、branded = 49、personalized = 49、residue = 0 后才能报告安装成功。不要自动重启 Accio Work；完成后请用户手动完整退出并重新打开。

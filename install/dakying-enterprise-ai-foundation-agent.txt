@@ -1,10 +1,10 @@
 请把“大客赢 | 企业 AI 底座搭建智能体”安装到当前登录的 Accio Work 空间。全程使用中文反馈。
 
 不可变 ZIP 地址：
-https://raw.githubusercontent.com/Garden-g/DKY_Agent/36f0c272d6bb68d211879f5b07a0ed597d0751eb/release/dakying-enterprise-ai-foundation-builder-agent-v1.0.1.zip
+https://raw.githubusercontent.com/Garden-g/DKY_Agent/32ad2a6965ae4861d170a27dfc3232ce6a11d4db/release/dakying-enterprise-ai-foundation-builder-agent-v1.0.2.zip
 
 ZIP 预期 SHA-256：
-aa52e160f12dce12637546bc3f82dd810644799da76984f36d521824e9aa10b8
+cecda99e0c842b897a458fb8562d0ea3efd6027ff5fe30a99c1a368ff6bb6b54
 
 先用 curl 把上述不可变地址作为二进制文件下载到一个新的临时路径；Windows 使用 curl.exe。启用 HTTP 错误失败、重定向和有限次数重试。下载命令出现网络或 HTTP 错误时，应报告下载失败，不能误报为哈希错误。对下载到的 ZIP 本体计算 SHA-256 并精确比较；第一次不一致时删除本次临时 ZIP，再干净下载一次，第二次仍不一致就停止。
 
